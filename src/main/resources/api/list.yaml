@@ -1,0 +1,4 @@
+method: get
+url: https://
+query:
+  - id: ""
