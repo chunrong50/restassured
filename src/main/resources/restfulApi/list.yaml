@@ -1,0 +1,5 @@
+method: get
+url: https://qyapi.weixin.qq.com/cgi-bin/department/list
+query:
+  id: 3
+  access_token:

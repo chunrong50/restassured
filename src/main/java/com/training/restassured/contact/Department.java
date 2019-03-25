@@ -19,9 +19,9 @@ public class Department extends Api {
         map.put("access_token",WeWork.getToken());
         map.put("id",id);
 
-        return  getRequest(map,"get","","https://qyapi.weixin.qq.com/cgi-bin/department/list");
+      //  return  getRequest(map,"get","","https://qyapi.weixin.qq.com/cgi-bin/department/list");　　//通过类对接口的拼装来发送请求
 
-
+        return  templateFromYaml("/restfulApi/list.yaml",map);   // 通过接口配置文件来完成请求数据的填充，来发送请求
     }
 
 

@@ -21,6 +21,7 @@ class DepartmentTest {
 
         department.list("").then().statusCode(200).body("department.name[1]",equalTo("department2"));
         department.list("３").then().statusCode(200).body("department.name[2]",equalTo("测试部"));
+
     }
 
     @Test

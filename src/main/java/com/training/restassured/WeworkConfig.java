@@ -25,13 +25,14 @@ public class WeworkConfig {
         return weworkConfig;
     }
 
+
     public static WeworkConfig load(String path){
 
         // read from yaml or json
 
         ObjectMapper mapper=new ObjectMapper(new YAMLFactory());
         try {
-            return mapper.readValue(WeworkConfig.class.getResourceAsStream(path), WeworkConfig.class);
+            return mapper.readValue(WeworkConfig.class.getResourceAsStream(path), WeworkConfig.class);  // 把读入的数据作为WeworkConfig类的数据
         }catch (IOException e){
             e.printStackTrace();
             return  null;

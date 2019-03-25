@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 public class Api {
 
     HashMap<String ,Object> query=new HashMap<String,Object>();
-  public   RequestSpecification  request=given();
+  public   RequestSpecification  req=given();
 
 
     /**
@@ -48,13 +48,14 @@ public class Api {
     public  Response  getRequest(HashMap<String,Object> map,String method,String body, String url){
 
            map.entrySet().forEach(entry->{
-               request=  request.queryParam(entry.getKey(),entry.getValue()) ;
+               req=  req.queryParam(entry.getKey(),entry.getValue()) ;
            });
 
+
                if(method.equals("get"))
-                   return  request.log().all().when().get(url).then().log().all().extract().response();
+                   return  req.log().all().when().get(url).then().log().all().extract().response();
                else
-                   return  request.log().all().body(body).when().post(url).then().log().all().extract().response();
+                   return  req.log().all().body(body).when().post(url).then().log().all().extract().response();
        }
 
 
@@ -63,16 +64,25 @@ public class Api {
 
 public Response templateFromYaml(String path, HashMap<String,Object> map){
     //todo : 根据yaml生成接口定义并发送
+    Restful restful=null;
 
     ObjectMapper mapper=new ObjectMapper(new YAMLFactory());
     try {
-     Restful restful=   mapper.readValue(WeworkConfig.class.getResourceAsStream(path),Restful.class);
+      restful=   mapper.readValue(WeworkConfig.class.getResourceAsStream(path),Restful.class);
+      map.entrySet().forEach( entry->{
+         req=  req.queryParam(entry.getKey(),entry.getValue()) ;
+     });
+
     }catch (IOException e){
         e.printStackTrace();
         return  null;
     }
 
-return  null;
+    if(restful.method.toLowerCase().equals("get"))
+        return  req.log().all().when().get(restful.url).then().log().all().extract().response();
+    else
+        return  req.log().all().body(restful.body).when().post(restful.url).then().log().all().extract().response();
+
 }
 
 }
