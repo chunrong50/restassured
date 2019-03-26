@@ -21,14 +21,12 @@ public class WeworkConfig {
            /* System.out.println(weworkConfig);
             System.out.println(weworkConfig.corpid);*/
         }
-
         return weworkConfig;
     }
 
 
     public static WeworkConfig load(String path){
-
-        // read from yaml or json
+        // read from yaml or data
 
         ObjectMapper mapper=new ObjectMapper(new YAMLFactory());
         try {

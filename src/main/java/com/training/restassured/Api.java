@@ -16,28 +16,30 @@ import static io.restassured.RestAssured.given;
 
 public class Api {
 
-    HashMap<String ,Object> query=new HashMap<String,Object>();
-  public   RequestSpecification  req=given();
+    HashMap<String, Object> query = new HashMap<String, Object>();
+    public RequestSpecification req = given();
 
 
     /**
      * 修改模板中的json字段，用map中的字段替换
      * 在请求的数据较多时，使用模板数据配合部分字段替换
+     *
      * @param path
      * @param map
      * @return
      */
 
-    public   String template(String path ,HashMap<String,Object> map){
-        DocumentContext  documentContext= JsonPath.parse(Api.class.getResourceAsStream(path));
-        map.entrySet().forEach(entry->{
-            documentContext.set(entry.getKey(),entry.getValue());
+    public String template(String path, HashMap<String, Object> map) {
+        DocumentContext documentContext = JsonPath.parse(Api.class.getResourceAsStream(path));
+        map.entrySet().forEach(entry -> {
+            documentContext.set(entry.getKey(), entry.getValue());
         });
-        return  documentContext.jsonString();
+        return documentContext.jsonString();
     }
 
     /**
      * 完整的请求模板
+     *
      * @param map
      * @param method
      * @param body
@@ -45,44 +47,45 @@ public class Api {
      * @return
      */
 
-    public  Response  getRequest(HashMap<String,Object> map,String method,String body, String url){
+    public Response getRequest(HashMap<String, Object> map, String method, String body, String url) {
+        map.entrySet().forEach(entry -> {
+            req = req.queryParam(entry.getKey(), entry.getValue());
+        });
 
-           map.entrySet().forEach(entry->{
-               req=  req.queryParam(entry.getKey(),entry.getValue()) ;
-           });
-
-
-               if(method.equals("get"))
-                   return  req.log().all().when().get(url).then().log().all().extract().response();
-               else
-                   return  req.log().all().body(body).when().post(url).then().log().all().extract().response();
-       }
-
-
-
-
-
-public Response templateFromYaml(String path, HashMap<String,Object> map){
-    //todo : 根据yaml生成接口定义并发送
-    Restful restful=null;
-
-    ObjectMapper mapper=new ObjectMapper(new YAMLFactory());
-    try {
-      restful=   mapper.readValue(WeworkConfig.class.getResourceAsStream(path),Restful.class);
-      map.entrySet().forEach( entry->{
-         req=  req.queryParam(entry.getKey(),entry.getValue()) ;
-     });
-
-    }catch (IOException e){
-        e.printStackTrace();
-        return  null;
+        if (method.equals("get"))
+            return req.log().all().when().get(url).then().log().all().extract().response();
+        else
+            return req.log().all().body(body).when().post(url).then().log().all().extract().response();
     }
 
-    if(restful.method.toLowerCase().equals("get"))
-        return  req.log().all().when().get(restful.url).then().log().all().extract().response();
-    else
-        return  req.log().all().body(restful.body).when().post(restful.url).then().log().all().extract().response();
 
-}
+    /**
+     * 根据配置文件数据来发送请求
+     * @param path
+     * @param map
+     * @return
+     */
+    public Response templateFromYaml(String path, HashMap<String, Object> map) {
+        //fixed: 根据yaml生成接口定义并发送
+        Restful restful = null;
+
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        try {
+            restful = mapper.readValue(WeworkConfig.class.getResourceAsStream(path), Restful.class);
+            map.entrySet().forEach(entry -> {
+                req = req.queryParam(entry.getKey(), entry.getValue());
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        if (restful.method.toLowerCase().equals("get"))
+            return req.log().all().when().get(restful.url).then().log().all().extract().response();
+        else
+            return req.log().all().body(restful.body).when().post(restful.url).then().log().all().extract().response();
+
+    }
 
 }

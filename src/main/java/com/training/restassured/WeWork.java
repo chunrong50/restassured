@@ -18,8 +18,6 @@ private  static String token;
                 queryParam("corpsecret",WeworkConfig.geInstance().secret_contact).
                 when().get("https://qyapi.weixin.qq.com/cgi-bin/gettoken").
                 then().log().all().extract().path("access_token");
-
-
     }
 
     public  static  String   getToken(){
@@ -28,8 +26,5 @@ private  static String token;
             token=getAccess_token();
         return token;
     }
-
-
-
 
 }

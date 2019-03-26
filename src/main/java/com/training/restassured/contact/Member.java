@@ -2,7 +2,6 @@ package com.training.restassured.contact;
 
 import com.training.restassured.Api;
 import com.training.restassured.WeWork;
-import com.training.restassured.WeworkConfig;
 import io.restassured.response.Response;
 
 import java.util.HashMap;
@@ -16,16 +15,14 @@ public class Member extends  Api{
     public Response create(){
         String  random=String.valueOf(System.currentTimeMillis());
         String  random1=random.substring(7);
-        HashMap<String,Object>  templatemap=new HashMap<String,Object>();
-        templatemap.put("userid",random1);
-        templatemap.put("name","lisi"+random1);
-        templatemap.put("department","3");
-        templatemap.put("is_leader_in_dept","0");
-        templatemap.put("email",random+"@qq.com");
-        String  body=template("/json/CreatMember.json",templatemap);
+        HashMap<String,Object>  datamap=new HashMap<String,Object>();
+        datamap.put("userid",random1);
+        datamap.put("name","lisi"+random1);
+        datamap.put("department","3");
+        datamap.put("is_leader_in_dept","0");
+        datamap.put("email",random+"@qq.com");
+        String  body=template("/data/member.json",datamap);
         map.put("access_token", WeWork.getToken());
-
-
 
         return getRequest(map,"post",body,"https://qyapi.weixin.qq.com/cgi-bin/user/create");
 
@@ -35,7 +32,6 @@ public class Member extends  Api{
     public  Response readMember(String userid){
         map.put("access_token",WeWork.getToken());
         map.put("userid",userid);
-
        return  getRequest(map,"get","","https://qyapi.weixin.qq.com/cgi-bin/user/get");
 
     }

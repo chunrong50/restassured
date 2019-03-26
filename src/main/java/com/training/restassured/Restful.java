@@ -9,6 +9,4 @@ public class Restful {
     public  HashMap<String,Object> query=new HashMap<String,Object>();
     public  String body;
 
-
-
 }

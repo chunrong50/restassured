@@ -18,7 +18,6 @@ class DepartmentTest {
 
     @Test
     void list() {
-
         department.list("").then().statusCode(200).body("department.name[1]",equalTo("department2"));
         department.list("３").then().statusCode(200).body("department.name[2]",equalTo("测试部"));
 
@@ -27,16 +26,26 @@ class DepartmentTest {
     @Test
     void create(){
         department.create().then().extract().path("errmsg").equals("created");
-
     }
+
+
+    @Test
+    void create1(){
+        //todo: 运行时修改参数
+        department.create("test8","7").then().statusCode(200).body("errmsg",equalTo("created"));
+      //  department.create("demo5","3").then().statusCode(200).body("errmsg",equalTo("department existed"));
+    }
+
+
 
     @Test
     void  update(){
-        department.update().then().extract().path("errmsg").equals("updated");
+        department.update("demoupdate").then().statusCode(200).body("errmsg",equalTo("updated"));
     }
 
     @Test
     void delete(){
-        assertThat(department.delete("6").path("errmsg"),equalTo("deleted"));
+        //todo:每次运行需修改id
+        assertThat(department.delete("13").path("errmsg"),equalTo("deleted"));
     }
 }

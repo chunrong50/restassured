@@ -15,7 +15,6 @@ class MemberTest {
 
     @Test
     void create() {
-
         member.create().path("errmsg").equals("created");
     }
     @Test
