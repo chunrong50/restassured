@@ -4,11 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class WeworkConfig {
 
    public   String  corpid="";
    public   String  secret_contact="";
+
+   public  String current="test";
+   public HashMap<String,HashMap<String,String>>  env;
 
 
     private  static  WeworkConfig  weworkConfig;

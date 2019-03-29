@@ -4,6 +4,6 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/training/restassured/contact/Department.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/training/restassured/contact/Member.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/test/java/com/training/restassured/contact/MemberTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/java/com/training/restassured/contact/TestMember.java" charset="UTF-8" />
   </component>
 </project>
